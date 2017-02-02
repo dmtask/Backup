@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require File.expand_path('lib/backup/version')
+require File.expand_path('lib/version')
 
 Gem::Specification.new do |gem|
   gem.name        = 'backup'
@@ -11,6 +11,4 @@ Gem::Specification.new do |gem|
   gem.license     = 'MIT'
   gem.summary     = ''
   gem.description = ''
-
-
 end
