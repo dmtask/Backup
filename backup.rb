@@ -1,8 +1,13 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
 
-require File.expand_path('lib/start')
+# backup Root Verzeichnis
+BASE_PATH = File.expand_path(File.dirname(__FILE__))
 
-Start.getData
+# lib Verzeichnis in den Load Path packen
+$: <<  "#{BASE_PATH}/lib"
+
+require 'start'
+
+Start.copy_data_to_tmp
 
 # TODO: Andere Methoden...
