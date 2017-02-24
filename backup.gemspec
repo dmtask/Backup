@@ -9,6 +9,6 @@ Gem::Specification.new do |gem|
   gem.email       = 'dmtask@gmx.de'
   gem.homepage    = 'https://github.com/dmtask/backup'
   gem.license     = 'MIT'
-  gem.summary     = ''
+  gem.summary     = 'Backuptool'
   gem.description = ''
 end

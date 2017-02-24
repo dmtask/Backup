@@ -1,12 +1,34 @@
 require 'fileutils'
 require 'yaml'
+require 'date'
 
 class Start
   class << self
-    public def copy_data_to_tmp
+    public def start
       configs = get_configs
 
-      FileUtils.cp_r(configs['start_path'], configs['tmp_path'])
+      backup_name = create_full_backup_name(configs)
+      create_tmp_directory(configs, backup_name)
+      copy_data_to_tmp(configs, backup_name)
+    end
+
+
+    private def create_tmp_directory(configs, backup_name)
+      FileUtils.mkdir_p(configs['tmp_path'].to_s + backup_name.to_s)
+    end
+
+
+    private def copy_data_to_tmp(configs, backup_name)
+      Dir[configs['start_path'].to_s + '*'].each do |file|
+        FileUtils.cp_r(file, (configs['tmp_path'].to_s + backup_name.to_s + '/'))
+      end
+    end
+
+
+    private def create_full_backup_name(configs)
+      current_date = DateTime.now
+
+      configs['backup_name'].to_s + '_' + current_date.strftime('%d-%m-%Y').to_s
     end
 
 

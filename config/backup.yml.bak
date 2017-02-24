@@ -1,3 +1,7 @@
 ---
 start_path: ''
 tmp_path: ''
+backup_name: ''
+backup_path: ''
+
+exclude_files: ''

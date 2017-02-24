@@ -8,6 +8,4 @@ $: <<  "#{BASE_PATH}/lib"
 
 require 'start'
 
-Start.copy_data_to_tmp
-
-# TODO: Andere Methoden...
+Start.start
