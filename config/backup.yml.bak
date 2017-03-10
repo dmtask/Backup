@@ -4,4 +4,5 @@ tmp_path: ''
 backup_name: ''
 backup_path: ''
 
+# Dateien oder Ordner welche nicht mitgesichert werden sollen. Getrennt durch |
 exclude_files: ''
