@@ -8,6 +8,9 @@ class Start
     public def start
       configs = get_configs
 
+      # TODO: Prüfen ob eine Backup Platte vorhanden ist
+      # TODO: Schöne Ausgaben einbauen
+
       backup_name = create_full_backup_name(configs)
       create_tmp_directory(configs, backup_name)
 
