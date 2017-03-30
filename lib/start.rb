@@ -13,7 +13,7 @@ class Start
 
       copy_data_to_tmp(configs, backup_name)
 
-      compress_directory(configs)
+      compress_directory(configs, backup_name)
     end
 
 
@@ -40,10 +40,10 @@ class Start
     end
 
 
-    private def compress_directory(configs)
-      #http://stackoverflow.com/questions/13943860/compress-a-complete-directory-in-ruby-with-zlib
+    private def compress_directory(configs, backup_name)
+      Dir.chdir(configs['tmp_path'].to_s)
 
-
+      `tar -zcvf "#{backup_name}.tar.gz" "#{backup_name}/"`
     end
 
 
