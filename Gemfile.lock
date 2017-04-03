@@ -3,6 +3,7 @@ PATH
   specs:
     backup (0.0.1)
       ferrets_on_fire
+      rgpg
 
 GEM
   remote: https://rubygems.org/
@@ -14,9 +15,10 @@ GEM
       highline (~> 1.7)
       micon (~> 0.1)
       rugged (~> 0.25)
-    gli (2.15.0)
+    gli (2.16.0)
     highline (1.7.8)
     micon (0.1.28)
+    rgpg (0.4.0)
     rugged (0.25.1.1)
 
 PLATFORMS

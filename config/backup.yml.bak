@@ -6,3 +6,8 @@ backup_path: ''
 
 # Dateien oder Ordner welche nicht mitgesichert werden sollen. Getrennt durch |
 exclude_files: ''
+
+# Verschlüsselung
+key: ''
+email: ''
+name: ''
