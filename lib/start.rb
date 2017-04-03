@@ -3,25 +3,39 @@ require 'yaml'
 require 'date'
 require 'zlib'
 
+require 'copy'
+
 class Start
   class << self
     public def start
       configs = get_configs
 
-      # TODO: Prüfen ob eine Backup Platte vorhanden ist
       # TODO: Schöne Ausgaben einbauen
 
-      backup_name = create_full_backup_name(configs)
-      create_tmp_directory(configs, backup_name)
+      if checks(configs)
+        backup_name = create_full_backup_name(configs)
+        create_tmp_directory(configs, backup_name)
 
-      copy_data_to_tmp(configs, backup_name)
+        copy_data_to_tmp(configs, backup_name)
+        compress_directory(configs, backup_name)
 
-      compress_directory(configs, backup_name)
+        Copy.copy
+      end
     end
 
 
     private def checks(configs)
+      if Process.euid != 0
+        puts 'Permission denied. Für den Backupvorgang werden Root Rechte benötigt.'
+        return false
+      end
 
+      if Dir.open(configs['backup_path']).is_a?(Dir)
+        puts "Backup Festplatte unter #{configs['backup_path']} konnte nicht gefunden werden, Backupvorgang wurde abgebrochen."
+        return false
+      end
+
+      return true
     end
 
 
@@ -59,7 +73,7 @@ class Start
       parsed = begin
         YAML.load(File.open("config/backup.yml"))
       rescue ArgumentError => e
-        puts "Could not parse YAML: #{e.message}"
+        puts "Kann YAML Config Datei nicht lesen: #{e.message}"
       end
 
       parsed

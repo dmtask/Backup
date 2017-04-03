@@ -9,4 +9,3 @@ $: <<  "#{BASE_PATH}/lib"
 require 'start'
 
 Start.start
-Copy.copy
