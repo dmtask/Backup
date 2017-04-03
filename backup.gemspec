@@ -11,4 +11,8 @@ Gem::Specification.new do |gem|
   gem.license     = 'MIT'
   gem.summary     = 'Backuptool'
   gem.description = ''
+
+  gem.required_ruby_version = '>= 2.4.0'
+
+  gem.add_dependency 'ferrets_on_fire'
 end

@@ -1,0 +1,29 @@
+PATH
+  remote: .
+  specs:
+    backup (0.0.1)
+      ferrets_on_fire
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colorize (0.8.1)
+    ferrets_on_fire (0.0.5)
+      colorize (~> 0.8)
+      gli (~> 2.15)
+      highline (~> 1.7)
+      micon (~> 0.1)
+      rugged (~> 0.25)
+    gli (2.15.0)
+    highline (1.7.8)
+    micon (0.1.28)
+    rugged (0.25.1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  backup!
+
+BUNDLED WITH
+   1.14.5

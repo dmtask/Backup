@@ -10,7 +10,7 @@ class Start
     public def start
       configs = get_configs
 
-      # TODO: Schöne Ausgaben einbauen
+      # TODO: Mehr Ausgaben einbauen
 
       if checks(configs)
         backup_name = create_full_backup_name(configs)
@@ -26,12 +26,12 @@ class Start
 
     private def checks(configs)
       if Process.euid != 0
-        puts 'Permission denied. Für den Backupvorgang werden Root Rechte benötigt.'
+        error 'Permission denied. Für den Backupvorgang werden Root Rechte benötigt.'
         return false
       end
 
       if Dir.open(configs['backup_path']).is_a?(Dir)
-        puts "Backup Festplatte unter #{configs['backup_path']} konnte nicht gefunden werden, Backupvorgang wurde abgebrochen."
+        error "Backup Festplatte unter #{configs['backup_path']} konnte nicht gefunden werden, Backupvorgang wurde abgebrochen."
         return false
       end
 
@@ -73,7 +73,7 @@ class Start
       parsed = begin
         YAML.load(File.open("config/backup.yml"))
       rescue ArgumentError => e
-        puts "Kann YAML Config Datei nicht lesen: #{e.message}"
+        error "Kann YAML Config Datei nicht lesen: #{e.message}"
       end
 
       parsed
