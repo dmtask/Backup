@@ -20,6 +20,11 @@ class Start
     end
 
 
+    private def checks(configs)
+
+    end
+
+
     private def create_tmp_directory(configs, backup_name)
       FileUtils.mkdir_p(configs['tmp_path'].to_s + backup_name.to_s)
     end
