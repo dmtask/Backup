@@ -8,6 +8,8 @@ backup_path: ''
 exclude_files: ''
 
 # Verschlüsselung
+encryption: true
 key: ''
 email: ''
 name: ''
+keyfile: 'config/[KEYNAME].pub'

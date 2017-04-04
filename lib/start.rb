@@ -4,6 +4,7 @@ require 'date'
 require 'zlib'
 
 require 'copy'
+require 'encrypt'
 
 class Start
   class << self
@@ -20,6 +21,10 @@ class Start
         compress_directory(configs, backup_name)
 
         Copy.copy
+
+        if configs['encryption']
+          Encrypt.encrypt
+        end
       end
     end
 
@@ -30,8 +35,8 @@ class Start
         return false
       end
 
-      if Dir.open(configs['backup_path']).is_a?(Dir)
-        error "Backup Festplatte unter #{configs['backup_path']} konnte nicht gefunden werden, Backupvorgang wurde abgebrochen."
+      if configs['backup_path'].empty? || Dir.open(configs['backup_path']).is_a?(Dir)
+        error "Backup Festplatte unter '#{configs['backup_path']}' konnte nicht gefunden werden, Backupvorgang wurde abgebrochen."
         return false
       end
 
