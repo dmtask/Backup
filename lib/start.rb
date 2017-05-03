@@ -3,7 +3,6 @@ require 'yaml'
 require 'date'
 require 'zlib'
 
-require 'copy'
 require 'encrypt'
 
 class Start
@@ -11,19 +10,26 @@ class Start
     public def start
       configs = get_configs
 
-      # TODO: Mehr Ausgaben einbauen
-
       if checks(configs)
+        action 'Bereite Backupvorgang vor...'
         backup_name = create_full_backup_name(configs)
-        create_tmp_directory(configs, backup_name)
 
-        copy_data_to_tmp(configs, backup_name)
-        compress_directory(configs, backup_name)
+        unless backup_name.empty?
+          create_tmp_directory(configs, backup_name)
 
-        Copy.copy
+          action 'Erstelle Backup...'
+          copy_data_to_tmp(configs, backup_name)
+          compress_directory(configs, backup_name)
 
-        if configs['encryption']
-          Encrypt.encrypt
+          action "Kopiere Backup '#{configs['tmp_path']}#{backup_name}.tar.gz' auf die Backup Festplatte..."
+          copy_to_backup_volume(configs, backup_name)
+
+          if configs['encryption']
+            action 'Verschlüssle Backup Archiv...'
+            Encrypt.encrypt(configs, backup_name)
+          end
+        else
+          error 'Vollständiger Backupname konnte nicht erstellt werden, Backupvorgang wurde abgebrochen.'
         end
       end
     end
@@ -35,7 +41,7 @@ class Start
         return false
       end
 
-      if configs['backup_path'].empty? || Dir.open(configs['backup_path']).is_a?(Dir)
+      if configs['backup_path'].empty? || !Dir.open(configs['backup_path']).is_a?(Dir)
         error "Backup Festplatte unter '#{configs['backup_path']}' konnte nicht gefunden werden, Backupvorgang wurde abgebrochen."
         return false
       end
@@ -71,6 +77,13 @@ class Start
       Dir.chdir(configs['tmp_path'].to_s)
 
       `tar -zcvf "#{backup_name}.tar.gz" "#{backup_name}/"`
+    end
+
+
+    private def copy_to_backup_volume(configs, backup_name)
+      full_path = "#{configs['tmp_path']}#{backup_name}.tar.gz"
+
+      FileUtils.cp(full_path, configs['backup_path'].to_s)
     end
 
 
