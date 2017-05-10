@@ -5,7 +5,7 @@ class Encrypt
     public def encrypt(configs, backup_name)
       full_path = "#{configs['tmp_path']}#{backup_name}.tar.gz"
 
-      unless File.readable?(configs['keyfile'])
+      unless File.exist?(configs['keyfile'])
         generateKeyPair(configs)
       end
 
