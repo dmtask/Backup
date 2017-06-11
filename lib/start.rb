@@ -21,12 +21,14 @@ class Start
           copy_data_to_tmp(configs, backup_name)
           compress_directory(configs, backup_name)
 
-          action "Kopiere Backup '#{configs['tmp_path']}#{backup_name}.tar.gz' auf die Backup Festplatte..."
-          copy_to_backup_volume(configs, backup_name)
+          unless configs['develop']
+            action "Kopiere Backup '#{configs['tmp_path']}#{backup_name}.tar.gz' auf die Backup Festplatte..."
+            copy_to_backup_volume(configs, backup_name)
 
-          if configs['encryption']
-            action 'Verschlüssle Backup Archiv...'
-            Encrypt.encrypt(configs, backup_name)
+            if configs['encryption']
+              action 'Verschlüssle Backup Archiv...'
+              Encrypt.encrypt(configs, backup_name)
+            end
           end
         else
           error 'Vollständiger Backupname konnte nicht erstellt werden, Backupvorgang wurde abgebrochen.'
