@@ -61,7 +61,14 @@ class Start
       exclude_files = configs['exclude_files'].split('|')
 
       Dir[configs['start_path'].to_s + '*'].each do |file|
-        if !exclude_files.include?(file[file.rindex('/') + 1, file.length])
+        unless exclude_files.include?(file[file.rindex('/') + 1, file.length])
+          FileUtils.cp_r(file, (configs['tmp_path'].to_s + backup_name.to_s + '/'))
+        end
+      end
+
+      # Alle .Dateien ebenfalls kopieren
+      Dir[configs['start_path'].to_s + '.*'].each do |file|
+        unless file.to_s.end_with?('..') || file.to_s.end_with?('.')
           FileUtils.cp_r(file, (configs['tmp_path'].to_s + backup_name.to_s + '/'))
         end
       end
