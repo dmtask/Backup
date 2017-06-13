@@ -7,6 +7,7 @@ require 'encrypt'
 
 class Start
   class << self
+    # Starte...
     public def start
       configs = get_configs
 
@@ -37,6 +38,7 @@ class Start
     end
 
 
+    # Was muss auf jeden Fall gegeben sein, damit ein Backup funktioniert?
     private def checks(configs)
       if Process.euid != 0
         error 'Permission denied. Für den Backupvorgang werden Root Rechte benötigt.'
@@ -52,11 +54,13 @@ class Start
     end
 
 
+    # Backup tmp Verzeichnis erstellen
     private def create_tmp_directory(configs, backup_name)
       FileUtils.mkdir_p(configs['tmp_path'].to_s + backup_name.to_s)
     end
 
 
+    # Dateien ins tmp Verzeichnis kopieren
     private def copy_data_to_tmp(configs, backup_name)
       exclude_files = configs['exclude_files'].split('|')
 
@@ -75,6 +79,7 @@ class Start
     end
 
 
+    # Backup Dateinamen mit Datum erstellen
     private def create_full_backup_name(configs)
       current_date = DateTime.now
 
@@ -82,6 +87,7 @@ class Start
     end
 
 
+    # Archiv erstellen
     private def compress_directory(configs, backup_name)
       Dir.chdir(configs['tmp_path'].to_s)
 
@@ -89,6 +95,7 @@ class Start
     end
 
 
+    # Archiv auf die Backupplatte kopieren
     private def copy_to_backup_volume(configs, backup_name)
       full_path = "#{configs['tmp_path']}#{backup_name}.tar.gz"
 
@@ -96,6 +103,7 @@ class Start
     end
 
 
+    # Konfigurationen auslesen
     private def get_configs
       parsed = begin
         YAML.load(File.open("config/backup.yml"))
