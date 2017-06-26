@@ -40,6 +40,11 @@ class Start
 
     # Was muss auf jeden Fall gegeben sein, damit ein Backup funktioniert?
     private def checks(configs)
+      if configs['develop']
+        warn 'Backupscript befindet sich im Develop Modus!!'
+        return true
+      end
+
       if Process.euid != 0
         error 'Permission denied. Für den Backupvorgang werden Root Rechte benötigt.'
         return false

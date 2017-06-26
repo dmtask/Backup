@@ -12,8 +12,9 @@ require '_'
 # Allgemeine Start Klasse
 require 'start'
 
-info "**** Starte Backup #{DateTime.now.strftime('%d.%m.%Y %T')} ****"
+info "**** Starte Backup #{DateTime.now.strftime('%d.%m.%Y %T')} ****\n\n"
 
 Start.start
 
+puts ''
 info "**** Beende Backup #{DateTime.now.strftime('%d.%m.%Y %T')} ****"
