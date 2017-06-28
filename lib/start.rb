@@ -10,25 +10,30 @@ class Start
     # Starte...
     public def start
       configs = get_configs
+      backup_name = ''
 
       if checks(configs)
-        action 'Bereite Backupvorgang vor...'
-        backup_name = create_full_backup_name(configs)
+        action 'Bereite Backupvorgang vor...' do
+          backup_name = create_full_backup_name(configs)
+        end
 
         unless backup_name.empty?
           create_tmp_directory(configs, backup_name)
 
-          action 'Erstelle Backup...'
-          copy_data_to_tmp(configs, backup_name)
-          compress_directory(configs, backup_name)
+          action 'Erstelle Backup...' do
+            copy_data_to_tmp(configs, backup_name)
+            compress_directory(configs, backup_name)
+          end
 
           unless configs['develop']
-            action "Kopiere Backup '#{configs['tmp_path']}#{backup_name}.tar.gz' auf die Backup Festplatte..."
-            copy_to_backup_volume(configs, backup_name)
+            action "Kopiere Backup '#{configs['tmp_path']}#{backup_name}.tar.gz' auf die Backup Festplatte..." do
+              copy_to_backup_volume(configs, backup_name)
+            end
 
             if configs['encryption']
-              action 'Verschlüssle Backup Archiv...'
-              Encrypt.encrypt(configs, backup_name)
+              action 'Verschlüssle Backup Archiv...' do
+                Encrypt.encrypt(configs, backup_name)
+              end
             end
           end
         else
