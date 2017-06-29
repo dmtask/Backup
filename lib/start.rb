@@ -4,6 +4,7 @@ require 'date'
 require 'zlib'
 
 require 'encrypt'
+require 'upload'
 
 class Start
   class << self
@@ -33,6 +34,12 @@ class Start
             if configs['encryption']
               action 'Verschlüssle Backup Archiv...' do
                 Encrypt.encrypt(configs, backup_name)
+              end
+            end
+
+            if configs['upload']
+              action 'Lade Backup Archiv ins Google Drive...' do
+                Upload.upload(configs, backup_name)
               end
             end
           end

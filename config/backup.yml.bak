@@ -10,5 +10,8 @@ exclude_files: ''
 # Verschlüsselung
 encryption: true
 
+# Upload
+upload: false
+
 # Develop Modus
 develop: false
