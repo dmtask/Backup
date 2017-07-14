@@ -12,6 +12,9 @@ encryption: true
 
 # Upload
 upload: false
+client_serects_path: '' # /client_secret.json
+credentials_path: '' # /Backupscript.json
+google_drive_folder_id: '' # Ordner Id wo die Datei eventuell reingeladen werden soll
 
 # Develop Modus
 develop: false

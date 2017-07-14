@@ -6,8 +6,6 @@ require 'fileutils'
 
 OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
 APPLICATION_NAME = 'Backupscript'
-CLIENT_SECRETS_PATH = File.join(Dir.home, '/Documents/client_secret.json')
-CREDENTIALS_PATH = File.join(Dir.home, '/Documents/Backupscript-bd69003ab77e.json')
 SCOPE = Google::Apis::DriveV3::AUTH_DRIVE_METADATA_READONLY
 
 class Upload
@@ -16,18 +14,20 @@ class Upload
     public def upload(configs, backup_name)
       service = Google::Apis::DriveV3::DriveService.new
       service.client_options.application_name = APPLICATION_NAME
-      service.authorization = authorize
+      service.authorization = authorize(configs)
 
       full_path = "#{configs['tmp_path']}#{backup_name}.tar.gz.gpg"
-
+      upload_to_google_drive(full_path)
     end
 
 
-    private def authorize
-      FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
+    private def authorize(configs)
+      credentials_path = configs['credentials_path']
 
-      client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
-      token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
+      FileUtils.mkdir_p(File.dirname(credentials_path))
+
+      client_id = Google::Auth::ClientId.from_file(configs['client_serects_path'])
+      token_store = Google::Auth::Stores::FileTokenStore.new(file: credentials_path)
       authorizer = Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
       user_id = 'default'
       credentials = authorizer.get_credentials(user_id)
@@ -41,6 +41,11 @@ class Upload
       #end
 
       credentials
+    end
+
+
+    private def upload_to_google_drive(full_path)
+
     end
   end
 end
