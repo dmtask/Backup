@@ -1,10 +1,11 @@
 ---
-start_path: ''
-tmp_path: ''
-backup_name: ''
-backup_path: ''
+start_path: '' # Welcher Pfad soll gesichert werden
+tmp_path: '' # Wo sollen temporär die Daten hingeschrieben werden
+backup_name: '' # Backup Dateiname
+backup_path: '' # Pfad zur Backup Festplatte
 
 # Dateien oder Ordner welche nicht mitgesichert werden sollen. Getrennt durch |
+# Dateien enden immer mit einer Dateiendung; Ordner enden mit einem /
 exclude_files: ''
 
 # Verschlüsselung
