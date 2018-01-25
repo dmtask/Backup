@@ -36,12 +36,6 @@ class Start
                 Encrypt.encrypt(configs, backup_name)
               end
             end
-
-            if configs['upload']
-              action 'Lade Backup Archiv ins Google Drive...' do
-                Upload.upload(configs, backup_name)
-              end
-            end
           end
         else
           error 'Vollständiger Backupname konnte nicht erstellt werden, Backupvorgang wurde abgebrochen.'
