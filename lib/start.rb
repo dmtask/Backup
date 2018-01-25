@@ -4,7 +4,6 @@ require 'date'
 require 'zlib'
 
 require 'encrypt'
-require 'upload'
 
 class Start
   class << self
