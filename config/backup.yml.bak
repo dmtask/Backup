@@ -11,5 +11,8 @@ exclude_files: ''
 # Verschlüsselung
 encryption: true
 
+# Entschlüsselung
+path_to_encryption_files: ''
+
 # Develop Modus
 develop: false
