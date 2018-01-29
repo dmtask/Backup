@@ -1,0 +1,5 @@
+--require spec_helper
+--color
+--order random
+--format Fuubar
+-b
