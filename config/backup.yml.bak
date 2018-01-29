@@ -11,7 +11,7 @@ exclude_files: ''
 # Verschlüsselung
 encryption: true
 
-# Entschlüsselung
+# Entschlüsselung. Wo liegen die verschlüsselten Archive?
 path_to_encryption_files: ''
 
 # Develop Modus

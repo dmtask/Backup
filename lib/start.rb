@@ -7,7 +7,7 @@ class Start
     public def start
       configs = get_configs
 
-      if checks(configs)
+      if general_checks(configs)
         options = ['Backup starten', 'Backupdatei entschlüsseln']
         option = choose('Was möchten Sie machen?', options, default: options[0])
 
@@ -18,9 +18,7 @@ class Start
             Decrypt.decrypt(configs)
           end
         else
-          if configs['backup_path'].empty? || !Dir.open(configs['backup_path']).is_a?(Dir)
-            error "Backup Festplatte unter '#{configs['backup_path']}' konnte nicht gefunden werden, Backupvorgang wurde abgebrochen."
-          else
+          if backup_checks(configs)
             Backup.backup(configs)
           end
         end
@@ -28,8 +26,8 @@ class Start
     end
 
 
-    # Was muss auf jeden Fall gegeben sein, damit ein Backup funktioniert?
-    private def checks(configs)
+    # Was muss auf jeden Fall gegeben sein, damit das Script funktioniert?
+    private def general_checks(configs)
       if configs['develop']
         warn 'Backupscript befindet sich im Develop Modus!!'
         return true
@@ -37,6 +35,22 @@ class Start
 
       if Process.euid != 0
         error 'Permission denied. Für den Backupvorgang werden Root Rechte benötigt.'
+        return false
+      end
+
+      return true
+    end
+
+
+    # Was muss für ein Backup alles gegeben sein, damit es funktioniert?
+    private def backup_checks(configs)
+      if configs['backup_path'].empty? || !Dir.open(configs['backup_path']).is_a?(Dir)
+        error "Backup Festplatte unter '#{configs['backup_path']}' konnte nicht gefunden werden, Backupvorgang wurde abgebrochen."
+        return false
+      end
+
+      if configs['start_path'].end_with?('/') && configs['tmp_path'].end_with?('/') && configs['backup_path'].end_with?('/')
+        error 'Pfade in der backup.yml müssen mit einem / enden.'
         return false
       end
 
